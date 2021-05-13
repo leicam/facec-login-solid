@@ -10,6 +10,7 @@ namespace Login.Dominio.nsInterfaces
     public interface IUsuarioRepositorio
     {
         Usuario GetUsuario(string login);
+        Usuario GetUsuario(string login, string password);
         void Add(Usuario usuario);
     }
 }

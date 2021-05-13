@@ -11,6 +11,12 @@ namespace Login.Apresentacao
 {
     class Program
     {
+        private static readonly UsuarioRepositorio _usuarioRepositorio =
+            new UsuarioRepositorio();
+
+        private static readonly UsuarioService _usuarioService =
+            new UsuarioService(_usuarioRepositorio);
+
         static void Main(string[] args)
         {
             try
@@ -19,25 +25,34 @@ namespace Login.Apresentacao
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(string.Concat(ex.Message, "\n",
+                    "Pressione ENTER para continuar"));
+                Console.ReadLine();
+                MenuPrincipal();
             }
         }
 
         private static void MenuPrincipal()
         {
+            int opcaoEscolhida = 0;
+
+            Console.WriteLine("Bem vindo!");
+
             do
             {
-                Console.WriteLine("Bem vindo!");
+                Console.Clear();
                 Console.WriteLine("Selecione a opção desejada: ");
                 Console.WriteLine("1 - Sign in");
                 Console.WriteLine("2 - Esqueceu sua senha");
                 Console.WriteLine("3 - Sign up");
                 Console.WriteLine("4 - Sair");
 
-                switch (Console.ReadLine().ToInt())
+                opcaoEscolhida = Console.ReadLine().ToInt();
+
+                switch (opcaoEscolhida)
                 {
                     case 1:
-                        //chamar rotina de login
+                        EfetuarLogin();
                         break;
                     case 2:
                         //chamar rotina de esqueceu senha
@@ -46,20 +61,37 @@ namespace Login.Apresentacao
                         CadastrarUsuario();
                         break;
                 }
-            } while (Console.ReadLine().ToInt() != 4);
+            } while (opcaoEscolhida != 4);
+        }
+
+        private static void EfetuarLogin()
+        {
+            Console.WriteLine(_usuarioService
+                .EfetuarLogin(GetLogin(), GetPassword()));
+
+            Console.WriteLine("Pressione ENTER para continuar");
+            Console.ReadLine();
         }
 
         private static void CadastrarUsuario()
         {
+            _usuarioService.Cadastrar(GetLogin(), GetPassword());
+
+            Console.WriteLine("Usuário cadastrado com sucesso!");
+            Console.WriteLine("Pressione ENTER para continuar");
+            Console.ReadLine();
+        }
+
+        private static string GetLogin()
+        {
             Console.WriteLine("Informe seu login: ");
-            var login = Console.ReadLine();
+            return Console.ReadLine();
+        }
 
+        private static string GetPassword()
+        {
             Console.WriteLine("Informe seu password: ");
-            var password = Console.ReadLine();
-
-            var servico = new UsuarioService(new UsuarioRepositorio());
-
-            servico.Cadastrar(login, password);
+            return Console.ReadLine();
         }
     }
 }

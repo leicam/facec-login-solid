@@ -49,11 +49,25 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="nsServicos\UsuarioServiceTeste.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Login.Dominio\Login.Dominio.csproj">
+      <Project>{331c3bfc-6aa5-4619-a7b4-52e4736c8ff3}</Project>
+      <Name>Login.Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Login.Repositorio\Login.Repositorio.csproj">
+      <Project>{ad69485d-cf35-4ff2-8df2-75bb4f473698}</Project>
+      <Name>Login.Repositorio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Login.Servico\Login.Servico.csproj">
+      <Project>{b0d5bd77-4f50-4afd-9c5e-e39bcdfdafdf}</Project>
+      <Name>Login.Servico</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

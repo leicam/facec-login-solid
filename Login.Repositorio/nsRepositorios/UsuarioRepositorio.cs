@@ -1,4 +1,5 @@
 ﻿using Login.Dominio.nsEntidades;
+using Login.Dominio.nsExceptions;
 using Login.Dominio.nsInterfaces;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,18 @@ namespace Login.Repositorio.nsRepositorios
             }
 
             throw new ArgumentNullException(nameof(Usuario));
+        }
+
+        public Usuario GetUsuario(string login, string password)
+        {
+            foreach (var usuario in _lista)
+            {
+                if (usuario.Login.Equals(login)
+                    && usuario.Password.Equals(password))
+                    return usuario;
+            }
+
+            throw new BusinessRuleException("Usuário não cadastrado");
         }
     }
 }

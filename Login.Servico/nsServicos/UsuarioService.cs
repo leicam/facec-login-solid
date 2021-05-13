@@ -30,5 +30,10 @@ namespace Login.Servico.nsServicos
                 _usuarioRepositorio.Add(new Usuario(login, password));
             }
         }
+
+        public string EfetuarLogin(string login, string password)
+        {
+            return $"Bem vindo(a) { _usuarioRepositorio.GetUsuario(login, password).Login }";
+        }
     }
 }

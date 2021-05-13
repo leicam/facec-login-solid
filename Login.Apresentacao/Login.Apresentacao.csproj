@@ -54,6 +54,10 @@
       <Project>{331c3bfc-6aa5-4619-a7b4-52e4736c8ff3}</Project>
       <Name>Login.Dominio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Login.Repositorio\Login.Repositorio.csproj">
+      <Project>{AD69485D-CF35-4FF2-8DF2-75BB4F473698}</Project>
+      <Name>Login.Repositorio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Login.Servico\Login.Servico.csproj">
       <Project>{b0d5bd77-4f50-4afd-9c5e-e39bcdfdafdf}</Project>
       <Name>Login.Servico</Name>
