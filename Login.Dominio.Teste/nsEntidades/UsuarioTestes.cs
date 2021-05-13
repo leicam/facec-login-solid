@@ -12,7 +12,7 @@ namespace Login.Dominio.Teste.nsEntidades
     public class UsuarioTestes
     {
         private const string _owner = "Juliano";
-        private const string _category = "Entidade Usuario";
+        private const string _category = "Entidade Usuário";
 
         #region Propriedade Login
 

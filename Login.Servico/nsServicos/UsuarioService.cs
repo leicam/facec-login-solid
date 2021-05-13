@@ -20,10 +20,15 @@ namespace Login.Servico.nsServicos
 
         public void Cadastrar(string login, string password)
         {
-            if (_usuarioRepositorio.GetUsuario(login) != null)
-                throw new BusinessRuleException("Usuario com login informado já cadastrado! Verifique.");
-
-            _usuarioRepositorio.Add(new Usuario(login, password));
+            try
+            {
+                if (_usuarioRepositorio.GetUsuario(login) != null)
+                    throw new BusinessRuleException("Login informado já cadastrado na base de dados! Verifique.");
+            }
+            catch (ArgumentNullException)
+            {
+                _usuarioRepositorio.Add(new Usuario(login, password));
+            }
         }
     }
 }

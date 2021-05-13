@@ -1,4 +1,5 @@
 ﻿using Login.Dominio.nsExtensions;
+using Login.Repositorio.nsRepositorios;
 using Login.Servico.nsServicos;
 using System;
 using System.Collections.Generic;
@@ -56,7 +57,7 @@ namespace Login.Apresentacao
             Console.WriteLine("Informe seu password: ");
             var password = Console.ReadLine();
 
-            var servico = new UsuarioService(null);
+            var servico = new UsuarioService(new UsuarioRepositorio());
 
             servico.Cadastrar(login, password);
         }
