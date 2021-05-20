@@ -16,6 +16,61 @@ namespace Login.Servico.Teste.nsServicos
         private const string _owner = "Juliano";
         private const string _category = "Serviço Usuário";
 
+        #region Alterar Senha
+
+        [TestMethod]
+        [Owner(_owner)]
+        [TestCategory(_category)]
+        public void UsuarioService_AlterarSenha_ExpectedSucesso()
+        {
+            //Arrange
+            var usuarioService = new UsuarioServico(new UsuarioRepositorio());
+
+            //Act
+            usuarioService.Cadastrar("Juliano", "123");
+            var resultado = usuarioService.AlterarSenha("Juliano", "123", "abc");
+
+            //Assert
+            Assert.AreEqual("Olá Juliano, seu PASSWORD foi alterado com sucesso!", resultado,
+                "Não foi gerado resultado esperado para a alteração de senha do usuário! Verifique.");
+        }
+
+        [TestMethod]
+        [Owner(_owner)]
+        [TestCategory(_category)]
+        public void UsuarioService_AlterarSenha_ExpectedStringEmptyBusinessRuleException()
+        {
+            //Arrange
+            var usuarioService = new UsuarioServico(new UsuarioRepositorio());
+
+            //Act
+            usuarioService.Cadastrar("Juliano", "123");
+
+            //Assert
+            Assert.ThrowsException<ArgumentOutOfRangeException>(()
+                => usuarioService.AlterarSenha("Juliano", "123", string.Empty),
+                "Não foi gerada exceção para novo password quando vazio! Verifique.");
+        }
+
+        [TestMethod]
+        [Owner(_owner)]
+        [TestCategory(_category)]
+        public void UsuarioService_AlterarSenha_ExpectedWhiteSpacesBusinessRuleException()
+        {
+            //Arrange
+            var usuarioService = new UsuarioServico(new UsuarioRepositorio());
+
+            //Act
+            usuarioService.Cadastrar("Juliano", "123");
+
+            //Assert
+            Assert.ThrowsException<ArgumentOutOfRangeException>(()
+                => usuarioService.AlterarSenha("Juliano", "123", "        "),
+                "Não foi gerada exceção para novo password quando com espaços em branco! Verifique.");
+        }
+
+        #endregion Alterar Senha
+
         #region Cadastrar
 
         [TestMethod]
@@ -25,7 +80,7 @@ namespace Login.Servico.Teste.nsServicos
         {
             //Arrange
             var repositorio = new UsuarioRepositorio();
-            var servico = new UsuarioService(repositorio);
+            var servico = new UsuarioServico(repositorio);
 
             //Act
             servico.Cadastrar("Juliano", "123");
@@ -42,7 +97,7 @@ namespace Login.Servico.Teste.nsServicos
         {
             //Arrange
             var repositorio = new UsuarioRepositorio();
-            var servico = new UsuarioService(repositorio);
+            var servico = new UsuarioServico(repositorio);
 
             //Act
             servico.Cadastrar("Juliano", "123");
@@ -64,7 +119,7 @@ namespace Login.Servico.Teste.nsServicos
         {
             //Arrange
             var repositorio = new UsuarioRepositorio();
-            var servico = new UsuarioService(repositorio);
+            var servico = new UsuarioServico(repositorio);
 
             //Act
             servico.Cadastrar("Juliano", "123");
@@ -82,7 +137,7 @@ namespace Login.Servico.Teste.nsServicos
         {
             //Arrange
             var repositorio = new UsuarioRepositorio();
-            var servico = new UsuarioService(repositorio);
+            var servico = new UsuarioServico(repositorio);
 
             //Act
             servico.Cadastrar("Juliano", "123");

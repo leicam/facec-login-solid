@@ -1,21 +1,18 @@
 ﻿using Login.Dominio.nsExtensions;
-using Login.Repositorio.nsRepositorios;
-using Login.Servico.nsServicos;
+using Login.Dominio.nsInterfaces;
+using Login.IoC;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Login.Apresentacao
 {
     class Program
     {
-        private static readonly UsuarioRepositorio _usuarioRepositorio =
-            new UsuarioRepositorio();
+        private const string _pressioneEnter = "Pressione ENTER para continuar!";
+        private const string _passwordAtual = "Informe seu password atual: ";
+        private const string _passwordNovo = "Informe seu novo password: ";
 
-        private static readonly UsuarioService _usuarioService =
-            new UsuarioService(_usuarioRepositorio);
+        private static readonly IUsuarioServico _usuarioServico
+            = Installer.Factory().GetInstance<IUsuarioServico>();
 
         static void Main(string[] args)
         {
@@ -25,8 +22,7 @@ namespace Login.Apresentacao
             }
             catch (Exception ex)
             {
-                Console.WriteLine(string.Concat(ex.Message, "\n",
-                    "Pressione ENTER para continuar"));
+                Console.WriteLine(string.Concat(ex.Message, "\n", _pressioneEnter));
                 Console.ReadLine();
                 MenuPrincipal();
             }
@@ -43,7 +39,7 @@ namespace Login.Apresentacao
                 Console.Clear();
                 Console.WriteLine("Selecione a opção desejada: ");
                 Console.WriteLine("1 - Sign in");
-                Console.WriteLine("2 - Esqueceu sua senha");
+                Console.WriteLine("2 - Alterar password");
                 Console.WriteLine("3 - Sign up");
                 Console.WriteLine("4 - Sair");
 
@@ -55,7 +51,7 @@ namespace Login.Apresentacao
                         EfetuarLogin();
                         break;
                     case 2:
-                        //chamar rotina de esqueceu senha
+                        AlterarSenha();
                         break;
                     case 3:
                         CadastrarUsuario();
@@ -64,21 +60,28 @@ namespace Login.Apresentacao
             } while (opcaoEscolhida != 4);
         }
 
+        private static void AlterarSenha()
+        {
+            Console.WriteLine(_usuarioServico
+                .AlterarSenha(GetLogin(), GetPassword(_passwordAtual), GetPassword(_passwordNovo)));
+            Console.WriteLine(_pressioneEnter);
+            Console.ReadLine();
+        }
+
         private static void EfetuarLogin()
         {
-            Console.WriteLine(_usuarioService
+            Console.WriteLine(_usuarioServico
                 .EfetuarLogin(GetLogin(), GetPassword()));
-
-            Console.WriteLine("Pressione ENTER para continuar");
+            Console.WriteLine(_pressioneEnter);
             Console.ReadLine();
         }
 
         private static void CadastrarUsuario()
         {
-            _usuarioService.Cadastrar(GetLogin(), GetPassword());
+            _usuarioServico.Cadastrar(GetLogin(), GetPassword());
 
             Console.WriteLine("Usuário cadastrado com sucesso!");
-            Console.WriteLine("Pressione ENTER para continuar");
+            Console.WriteLine(_pressioneEnter);
             Console.ReadLine();
         }
 
@@ -88,9 +91,9 @@ namespace Login.Apresentacao
             return Console.ReadLine();
         }
 
-        private static string GetPassword()
+        private static string GetPassword(string mensagem = "Informe seu password: ")
         {
-            Console.WriteLine("Informe seu password: ");
+            Console.WriteLine(mensagem);
             return Console.ReadLine();
         }
     }
